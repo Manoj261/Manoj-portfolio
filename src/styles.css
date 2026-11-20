@@ -1,0 +1,613 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
+
+:root {
+  --lavender: #c9c0e5;
+  --terracotta: #b77b59;
+  --terracotta-dark: #986044;
+  --ink: #17110e;
+  --paper: #f8f1eb;
+  --line: rgba(23,17,14,.25);
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; scroll-snap-type: y proximity; }
+body { margin: 0; color: var(--ink); background: var(--terracotta); font-family: var(--sans); overflow-x: hidden; }
+a { color: inherit; }
+button { font: inherit; }
+.site-header {
+  position: fixed; inset: 0 0 auto; z-index: 100; min-height: 68px; padding: 0 5.5%;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px;
+  background: var(--lavender); border-bottom: 4px solid var(--ink);
+  transform: translateY(-110%); opacity: 0; pointer-events: none;
+  transition: transform .42s ease, opacity .3s ease;
+}
+.site-header.header-visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.brand { grid-column: 2; grid-row: 1; justify-self: center; font-family: var(--serif); font-size: 1.65rem; font-weight: 800; text-decoration: none; white-space: nowrap; }
+.role { grid-column: 1; grid-row: 1; justify-self: start; margin: 0; font-weight: 700; font-size: .92rem; }
+.nav-links { grid-column: 3; grid-row: 1; justify-self: end; display: flex; align-items: center; gap: 19px; }
+.nav-links a { font-size: .85rem; font-weight: 700; text-decoration: none; }
+.nav-links a:hover, .text-link:hover, .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.menu-toggle { display: none; border: 1px solid var(--ink); background: transparent; border-radius: 6px; padding: 6px 9px; }
+.section { padding: 100px 8%; scroll-snap-align: start; scroll-snap-stop: normal; }
+.hero { min-height: 100svh; padding-top: 125px; padding-bottom: 90px; display: grid; grid-template-columns: minmax(230px,.8fr) minmax(0,1.35fr); gap: 8%; align-items: center; position: relative; }
+.profile-column { display: flex; flex-direction: column; align-items: center; }
+.profile-placeholder { width: min(100%, 290px); aspect-ratio: 1; border-radius: 50%; background: var(--paper); border: 8px solid rgba(255,255,255,.25); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.profile-placeholder span { font: 800 4.5rem var(--serif); }
+.profile-placeholder small { color: #65564d; font-size: .8rem; }
+.profile-caption { font-size: .7rem; letter-spacing: .2em; font-weight: 700; margin-top: 22px; }
+.eyebrow, .project-type { font-size: .72rem; font-weight: 700; letter-spacing: .19em; margin: 0 0 13px; }
+.hero h1 { font: 800 clamp(2.8rem,5.5vw,5.4rem)/1.04 var(--serif); letter-spacing: -.05em; margin: 0 0 12px; }
+.period { color: var(--lavender); }
+.hero-subtitle { font-size: clamp(1.05rem,2vw,1.4rem); font-weight: 700; margin: 0 0 20px; }
+.intro-text { max-width: 58ch; font-size: 1.02rem; line-height: 1.9; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-top: 27px; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 13px 17px; border: 2px solid var(--ink); font-size: .88rem; font-weight: 700; text-decoration: none; transition: transform .2s, background .2s; }
+.button:hover { transform: translateY(-3px); }
+.button-dark { background: var(--ink); color: white; }
+.button-light { background: var(--paper); color: var(--ink); }
+.text-link { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.scroll-cue { position: absolute; bottom: 32px; left: 8%; display: flex; align-items: center; gap: 10px; font-size: .68rem; letter-spacing: .15em; font-weight: 700; text-decoration: none; }
+.content-section { border-top: 1px solid var(--line); scroll-margin-top: 76px; }
+.section-heading { margin-bottom: 45px; }
+
+/* Keep the PROJECTS heading visible while each project card scrolls past.
+   Sticky positioning ends naturally at the bottom of the Projects section. */
+#projects > .section-heading {
+  position: sticky;
+  top: 68px;
+  z-index: 8;
+  padding: 22px 0 18px;
+  margin: 0 0 24px;
+  background: var(--terracotta);
+}
+#projects > .section-heading h2 {
+  font-size: clamp(2.4rem, 5.2vw, 4.25rem);
+}
+#projects > .project-list {
+  position: relative;
+}
+
+.section-heading h2 { font: 800 clamp(2.8rem,6.5vw,5.2rem)/1 var(--serif); letter-spacing: -.055em; margin: 0; }
+.timeline { max-width: 920px; margin-left: 14px; padding-left: 36px; border-left: 3px solid var(--ink); }
+.timeline-item { position: relative; padding: 0 0 38px; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot { position: absolute; left: -47px; top: 4px; width: 20px; height: 20px; border: 5px solid var(--ink); background: var(--terracotta); border-radius: 50%; }
+.date { font-size: .74rem; letter-spacing: .13em; font-weight: 700; margin: 0 0 9px; }
+.timeline-card h3, .project-card h3, .skill-card h3 { font: 700 1.35rem/1.3 var(--serif); margin: 0 0 9px; }
+.timeline-card p { margin: 6px 0; line-height: 1.6; }
+.result { font-weight: 700; }
+.project-list { display: flex; flex-direction: column; gap: 22px; }
+.project-card { display: grid; grid-template-columns: 90px minmax(0,1fr) 40px; gap: 22px; align-items: start; background: var(--paper); border: 2px solid var(--ink); padding: clamp(24px,4vw,42px); }
+.project-number { font: 800 3.3rem/1 var(--serif); opacity: .28; }
+.project-main .project-type { margin: 0 0 12px; }
+.project-card h3 { font-size: clamp(1.4rem,2.7vw,2rem); max-width: 760px; }
+.project-description { max-width: 75ch; line-height: 1.8; }
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 20px 0; }
+.tag-list li { padding: 6px 10px; background: var(--lavender); border: 1px solid var(--ink); font-size: .76rem; font-weight: 700; }
+.project-arrow { justify-self: end; }
+.publication-label { display: inline-block; font-size: .88rem; font-weight: 700; }
+.comvex-section { min-height: 88svh; scroll-snap-align: start; scroll-margin-top: 76px; display: grid; grid-template-columns: .8fr 1.2fr; gap: 8%; align-items: center; padding: 100px 8%; background: var(--terracotta-dark); color: var(--paper); border-block: 1px solid rgba(0,0,0,.3); }
+.comvex-mark-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+.comvex-mark { font: 800 clamp(9rem,18vw,16rem)/.9 var(--serif); letter-spacing: -.1em; }
+.comvex-mark span { color: var(--lavender); }
+.comvex-side-note { font-size: .7rem; font-weight: 700; letter-spacing: .19em; margin-top: 24px; }
+.comvex-copy h2 { font: 800 clamp(4rem,9vw,8rem)/.95 var(--serif); letter-spacing: -.06em; margin: 0 0 20px; }
+.comvex-lead { font-size: 1.35rem; font-weight: 700; }
+.comvex-copy > p:not(.eyebrow):not(.project-type) { max-width: 58ch; line-height: 1.85; }
+.comvex-copy .button { margin-top: 18px; }
+.skills-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 15px; }
+.skill-card { min-height: 190px; padding: 24px; border: 2px solid var(--ink); background: rgba(248,241,235,.14); }
+.skill-icon { margin-bottom: 24px; }
+.skill-card h3 { font-size: 1.12rem; }
+.skill-card p { line-height: 1.75; margin-bottom: 0; }
+.contact-buttons { display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: clamp(7px, 1.7vw, 24px); padding: 24px 8px; }
+.contact-button { position: relative; flex: 0 0 auto; width: clamp(76px, 7.5vw, 104px); height: clamp(76px, 7.5vw, 104px); display: inline-flex; align-items: center; justify-content: center; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); cursor: pointer; text-decoration: none; transform: scale(1); transform-origin: center; transition: transform .22s cubic-bezier(.2,.8,.2,1), background .2s ease, color .2s ease, box-shadow .2s ease; }
+.contact-button:hover, .contact-button:focus-visible { background: var(--paper); color: var(--ink); transform: scale(1.2); z-index: 20; box-shadow: 0 8px 18px rgba(23,17,14,.18); outline: none; }
+.contact-tooltip { position: absolute; left: 50%; bottom: calc(100% + 12px); z-index: 15; min-width: 190px; max-width: min(280px, 80vw); padding: 12px 14px; display: flex; flex-direction: column; gap: 5px; background: var(--paper); color: var(--ink); border: 1px solid var(--ink); box-shadow: 4px 4px 0 rgba(23,17,14,.22); opacity: 0; visibility: hidden; pointer-events: none; overflow-wrap: anywhere; transform: translate(-50%, 8px); transition: opacity .18s ease, transform .18s ease, visibility .18s ease; }
+.contact-tooltip strong { font-size: .85rem; }
+.contact-tooltip small { font-size: .76rem; line-height: 1.45; }
+.contact-button:hover .contact-tooltip, .contact-button:focus-visible .contact-tooltip { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.contact-location { cursor: default; }
+.contact-button:first-child .contact-tooltip { left: 0; transform: translate(0, 8px); }
+.contact-button:first-child:hover .contact-tooltip,
+.contact-button:first-child:focus-visible .contact-tooltip { transform: translate(0, 0); }
+.contact-button:last-child .contact-tooltip { left: auto; right: 0; transform: translate(0, 8px); }
+.contact-button:last-child:hover .contact-tooltip,
+.contact-button:last-child:focus-visible .contact-tooltip { transform: translate(0, 0); }
+
+/* Full-screen contact finale: keep the heading and contact icons centered in the viewport. */
+.contact-section {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 110px 8% 80px;
+  scroll-snap-align: start;
+}
+.contact-section > .section-heading {
+  width: 100%;
+  margin: 0 0 42px;
+  text-align: center;
+}
+.contact-section > .section-heading h2 {
+  font-size: clamp(2.7rem, 6vw, 5rem);
+}
+.contact-section .contact-buttons {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(14px, 2.2vw, 26px);
+}
+.contact-section .contact-button { width: clamp(76px, 7.5vw, 104px); height: clamp(76px, 7.5vw, 104px); }
+.brand-icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  display: block;
+}
+.contact-button:hover .brand-icon,
+.contact-button:focus-visible .brand-icon {
+  fill: currentColor;
+}
+@media (max-width: 620px) {
+  .contact-section {
+    min-height: 100svh;
+    padding: 105px 6% 70px;
+  }
+  .contact-section > .section-heading { margin-bottom: 30px; }
+  .contact-section .contact-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: center;
+    gap: clamp(5px, 1.8vw, 10px);
+    padding-inline: 2px;
+  }
+  .contact-section .contact-button {
+    width: clamp(40px, 12vw, 58px);
+    height: clamp(40px, 12vw, 58px);
+  }
+  .contact-section .brand-icon { width: 21px; height: 21px; }
+  .contact-section .gmail-icon { width: 24px; height: 19px; }
+  .contact-section .contact-tooltip {
+    left: 50%;
+    max-width: 230px;
+  }
+}
+
+.site-footer { padding: 24px 8%; background: var(--lavender); display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; font-size: .85rem; font-weight: 600; }
+.site-footer p { margin: 0; }
+
+/* Scroll reveal: elements animate on entry from either scroll direction and remain visible afterward. */
+.reveal { opacity: 0; transform: translateY(48px); filter: blur(5px); transition: opacity .75s ease, transform .8s cubic-bezier(.2,.75,.2,1), filter .75s ease; transition-delay: var(--reveal-delay, 0ms); }
+.reveal.is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+@media (max-width: 1000px) {
+  .site-header { grid-template-columns: 1fr auto 1fr; padding-top: 12px; padding-bottom: 12px; }
+  .role { grid-column: 1; grid-row: 1; font-size: .76rem; }
+  .brand { grid-column: 2; grid-row: 1; font-size: 1.35rem; }
+  .menu-toggle { grid-column: 3; grid-row: 1; justify-self: end; display: inline-flex; align-items: center; justify-content: center; }
+  .nav-links { grid-column: 1 / -1; grid-row: 2; display: none; flex-direction: column; align-items: flex-start; gap: 15px; padding: 10px 0 4px; }
+  .nav-links.open { display: flex; }
+  .hero { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+  .hero-copy { display: flex; flex-direction: column; align-items: center; }
+  .intro-text { max-width: 68ch; }
+  .hero-actions { justify-content: center; }
+  .scroll-cue { left: 50%; transform: translateX(-50%); white-space: nowrap; }
+  .comvex-section { grid-template-columns: 1fr; text-align: center; gap: 28px; }
+  .comvex-mark-wrap, .comvex-copy { align-items: center; }
+  .comvex-mark { font-size: 10rem; }
+  .skills-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 620px) {
+  .comvex-logo { width: min(72vw, 270px); max-height: 300px; }
+  #projects > .section-heading {
+    top: 82px;
+    padding-top: 16px;
+    padding-bottom: 14px;
+  }
+
+  .section { padding: 65px 6%; }
+  .site-header { gap: 10px; grid-template-columns: 1fr auto 1fr; }
+  .brand { font-size: 1.12rem; }
+  .role { width: auto; font-size: .64rem; }
+  .hero { padding-top: 100px; min-height: 100svh; }
+  .profile-placeholder { width: 205px; }
+  .profile-placeholder span { font-size: 3.4rem; }
+  .hero h1 { font-size: clamp(2.7rem,12vw,4rem); }
+  .scroll-cue { bottom: 18px; }
+  .timeline { margin-left: 8px; padding-left: 25px; }
+  .timeline-dot { left: -36px; }
+  .project-card { grid-template-columns: 1fr 30px; gap: 10px; padding: 24px 20px; }
+  .project-number { grid-column: 1; grid-row: 1; font-size: 2.3rem; margin-bottom: 6px; }
+  .project-main { grid-column: 1 / -1; grid-row: 2; }
+  .project-arrow { grid-column: 2; grid-row: 1; }
+  .skills-grid, .contact-panel { grid-template-columns: 1fr; }
+  .comvex-section { padding: 75px 6%; }
+  .comvex-mark { font-size: 8rem; }
+  .site-footer { padding: 22px 6%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  .reveal { opacity: 1; transform: none; filter: none; }
+}
+
+
+/* Official Comvex logo asset */
+.comvex-logo { display: block; width: min(100%, 330px); max-height: 390px; object-fit: contain; background: #fff; border-radius: 4px; }
+@media (max-width: 1000px) {
+  .comvex-logo {
+    width: min(58vw, 260px);
+    max-height: 330px;
+  }
+}
+
+
+/* User-supplied contact icons */
+.contact-image { display: block; width: 48px; height: 48px; object-fit: contain; flex: 0 0 auto; transition: transform .22s ease; }
+.gmail-image { width: 52px; height: 44px; }
+.contact-button:hover .contact-image,
+.contact-button:focus-visible .contact-image {
+  transform: scale(1.08);
+}
+@media (max-width: 620px) {
+  .contact-image { width: 23px; height: 23px; }
+  .gmail-image { width: 25px; height: 22px; }
+}
+
+
+/* Contact section: icon-only presentation, without card boxes */
+.contact-section .contact-button {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+}
+.contact-section .contact-button:hover,
+.contact-section .contact-button:focus-visible {
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--ink);
+  box-shadow: none;
+  transform: scale(1.2);
+}
+.contact-section .contact-image {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+.contact-section .gmail-image {
+  width: 68px;
+  height: 58px;
+}
+.contact-section .contact-buttons {
+  gap: clamp(26px, 4vw, 58px);
+}
+@media (max-width: 620px) {
+  .contact-section .contact-buttons {
+    gap: clamp(10px, 3vw, 22px);
+  }
+  .contact-section .contact-image {
+    width: clamp(32px, 9vw, 48px);
+    height: clamp(32px, 9vw, 48px);
+  }
+  .contact-section .gmail-image {
+    width: clamp(35px, 10vw, 52px);
+    height: clamp(30px, 8vw, 44px);
+  }
+}
+
+/* Profile portrait */
+.profile-placeholder {
+  overflow: hidden;
+  padding: 0;
+}
+.profile-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 28%;
+  border-radius: 50%;
+}
+
+
+/* =========================================================
+   FINAL THEME OVERRIDE — medium beige to white gradient
+   Cards remain transparent and use the page background.
+   ========================================================= */
+:root {
+  --lavender: #D2B48C;
+  --terracotta: #E2CBAE;
+  --terracotta-dark: #D2B48C;
+  --ink: #29231E;
+  --paper: #F5EBDD;
+  --line: rgba(41, 35, 30, .20);
+}
+
+html, body {
+  background: linear-gradient(135deg, #D2B48C 0%, #E2CBAE 48%, #FFFFFF 100%) fixed !important;
+  color: var(--ink);
+}
+
+.site-header, #projects > .section-heading, .section, .content-section,
+.hero, .comvex-section, .site-footer {
+  background: transparent !important;
+  color: var(--ink);
+}
+
+/* Remove separate fills from content cards */
+.project-card, .skill-card, .timeline-card, .education-card,
+.info-card, .contact-card, .comvex-card, .card {
+  background: transparent !important;
+  color: var(--ink);
+  box-shadow: none !important;
+  border-color: var(--line);
+}
+
+/* Keep tags and light buttons from creating colored card-like blocks */
+.tag-list li, .button-light {
+  background: transparent !important;
+  color: var(--ink);
+}
+
+.site-header { border-bottom: 1px solid var(--line); }
+.comvex-section { border-block: 1px solid var(--line); }
+.timeline-dot { background: #E2CBAE; }
+
+
+/* MOBILE LAYOUT FIX — header and sticky Projects heading */
+@media (max-width: 620px) {
+  .site-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 76px;
+    padding: 10px 6%;
+  }
+  .site-header .role {
+    flex: 0 1 92px;
+    max-width: 92px;
+    font-size: .62rem;
+    line-height: 1.2;
+    white-space: normal;
+  }
+  .site-header .brand {
+    flex: 0 1 auto;
+    min-width: 0;
+    font-size: clamp(.95rem, 4vw, 1.12rem);
+    line-height: 1.1;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .site-header .menu-toggle {
+    flex: 0 0 auto;
+    margin-left: auto;
+    padding: 7px 9px;
+  }
+  #projects > .section-heading {
+    top: 76px !important;
+    z-index: 90 !important;
+    padding: 14px 0 16px !important;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, #D2B48C 0%, #E2CBAE 48%, #FFFFFF 100%) !important;
+    isolation: isolate;
+  }
+  #projects > .section-heading h2 {
+    font-size: clamp(2.5rem, 11vw, 3.5rem);
+    line-height: 1;
+  }
+  #projects > .section-heading .eyebrow,
+  #projects > .section-heading p { margin-bottom: 8px; }
+  .project-card {
+    position: relative;
+    z-index: 1;
+    grid-template-columns: minmax(0, 1fr) 28px;
+    gap: 10px;
+    padding: 22px 18px;
+  }
+  .project-main { min-width: 0; }
+  .project-card h3 { overflow-wrap: break-word; }
+  .project-description { line-height: 1.65; }
+}
+
+
+/* =========================================================
+   SCROLL OVERLAP FIX
+   Header and sticky section heading must be opaque so page
+   content cannot show through while scrolling.
+   ========================================================= */
+:root {
+  --site-gradient: linear-gradient(
+    110deg,
+    #D2B48C 0%,
+    #E2CBAE 48%,
+    #FFFFFF 100%
+  );
+}
+
+/* Keep the header above all scrolling content with an opaque
+   copy of the site's beige-to-white gradient. */
+.site-header {
+  position: sticky !important;
+  top: 0;
+  z-index: 1000 !important;
+  background: var(--site-gradient) !important;
+  background-color: #E2CBAE !important;
+  opacity: 1 !important;
+  isolation: isolate;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Opaque sticky Projects title band: no body text or cards
+   should be visible underneath it during scroll. */
+#projects > .section-heading {
+  position: sticky !important;
+  top: var(--header-height, 68px);
+  z-index: 900 !important;
+  background: var(--site-gradient) !important;
+  background-color: #E2CBAE !important;
+  opacity: 1 !important;
+  isolation: isolate;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Ensure child layers do not make the sticky surfaces transparent. */
+.site-header::before,
+.site-header::after,
+#projects > .section-heading::before,
+#projects > .section-heading::after {
+  opacity: 1;
+}
+
+/* Match sticky offsets to the compact mobile header. */
+@media (max-width: 620px) {
+  .site-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    background: var(--site-gradient) !important;
+  }
+
+  #projects > .section-heading {
+    top: 76px !important;
+    z-index: 900 !important;
+    background: var(--site-gradient) !important;
+  }
+}
+
+
+/* FINAL VISUAL FIX:
+   Sticky surfaces are solid beige, not gradient panels.
+   Cards remain transparent and show the page background. */
+.site-header {
+  background: #E2CBAE !important;
+  background-image: none !important;
+  opacity: 1 !important;
+  isolation: isolate;
+  z-index: 1000 !important;
+}
+
+#projects > .section-heading {
+  background: #E2CBAE !important;
+  background-image: none !important;
+  opacity: 1 !important;
+  isolation: isolate;
+  z-index: 900 !important;
+}
+
+/* Do not give project/skill/education/contact cards their own gradient or fill */
+.project-card,
+.skill-card,
+.timeline-card,
+.education-card,
+.info-card,
+.contact-card,
+.comvex-card,
+.card {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+
+/* =========================================================
+   FINAL THEME: SOLID MEDIUM BEIGE ONLY
+   No gradients anywhere. All surfaces opaque.
+   ========================================================= */
+:root {
+  --lavender: #D2B48C;
+  --terracotta: #D2B48C;
+  --terracotta-dark: #B99570;
+  --ink: #29231E;
+  --paper: #D2B48C;
+  --line: rgba(41, 35, 30, .24);
+}
+
+/* Use one solid medium beige across the entire page */
+html,
+body,
+#root,
+.app,
+main {
+  background: #D2B48C !important;
+  background-image: none !important;
+  color: #29231E;
+}
+
+/* Every section and sticky surface is fully opaque */
+.site-header,
+.section,
+.content-section,
+.hero,
+.comvex-section,
+.site-footer,
+#projects > .section-heading {
+  background: #D2B48C !important;
+  background-image: none !important;
+  opacity: 1 !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Header must sit above all scrolling page content */
+.site-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  isolation: isolate !important;
+}
+
+/* Sticky Projects title remains opaque too */
+#projects > .section-heading {
+  z-index: 9000 !important;
+  isolation: isolate !important;
+}
+
+/* Cards blend into the same beige; no gradients or separate fills */
+.project-card,
+.skill-card,
+.timeline-card,
+.education-card,
+.info-card,
+.contact-card,
+.comvex-card,
+.card {
+  background: #D2B48C !important;
+  background-image: none !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+  color: #29231E;
+  border-color: var(--line);
+}
+
+/* Remove any gradient effects applied through pseudo-elements */
+*::before,
+*::after {
+  background-image: none;
+}
+
+/* Keep mobile sticky layers solid and correctly stacked */
+@media (max-width: 620px) {
+  .site-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+    background: #D2B48C !important;
+    background-image: none !important;
+  }
+
+  #projects > .section-heading {
+    background: #D2B48C !important;
+    background-image: none !important;
+    z-index: 9000 !important;
+  }
+}
